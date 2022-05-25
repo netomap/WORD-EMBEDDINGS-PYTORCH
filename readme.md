@@ -17,4 +17,6 @@
 
 ## Escolha do modelo
 
+- O script para criação da word-embedding está no arquivo [Word2Vec](word2vec.ipynb).  
+
 - A escolha do algoritmo para treinamento e criação de **word-embedding** do corpus escohido foi um [CBOW](https://en.wikipedia.org/wiki/Bag-of-words_model#CBOW).
