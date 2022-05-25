@@ -8,6 +8,7 @@ parser.add_argument('--lr', type=float, default=1e-3, help='Learming Rate')
 parser.add_argument('--rsw', type=str, default=False, help='Remover STOPWORDS')
 parser.add_argument('--s', type=str, default=False, help="Considerar Stemming")
 parser.add_argument('--fmin', type=int, default=2, help='Frequência Mínima para considerar dentro do vocabulário')
+parser.add_argument('--nw', type=int, default=3, help='Representa o número de vizinhos antes e depois da palavra central para analizar.')
 
 args = parser.parse_args()
 print (args)
@@ -42,6 +43,7 @@ LEARNING_RATE = args.lr
 RETIRAR_STOP_WORDS = True if args.rsw == 'True' else False
 ESTEMIZAR = True if args.s == 'True' else False
 FREQUENCIA_MINIMA = args.fmin
+N_WINDOW = args.nw
 
 nltk.download('rslp')
 nltk.download('stopwords')
@@ -132,7 +134,7 @@ class custom_dataset(Dataset):
     def __len__(self):
         return len(self.tensor_x)
 
-dataset = custom_dataset(n_window=2, lista_sentencas=sentencas_final)
+dataset = custom_dataset(n_window=N_WINDOW, lista_sentencas=sentencas_final)
 log (f'Total de linhas do dataset: {len(dataset)}')
 
 log ('Criando a classe modelo...') # ===========================================================
@@ -156,6 +158,15 @@ class Modelo_CBOW(nn.Module):
 
 
 log ('Treinamento...') # ===========================================================
+
+# ======================== FUNÇÃO QUE SALVA AS WORD EMBEDDING ======================
+def salvar_word_embedding(epoch):
+    vetor = list(model.parameters())[0].detach().cpu().numpy() # retirando os pesos da camada embedding
+    vetor = np.hstack([np.array(vocab_words).reshape(-1, 1), vetor]) # preparando a matriz colocando as vocab_words na primeira coluna
+    colunas = np.hstack(['word', [f'dim_{k}' for k in range(EMBEDDING_DIM)]]) # preparando os nomes das colunas da matriz
+    df = pd.DataFrame(vetor, columns=colunas).set_index('word') # criando o df e setando seu índice
+    df.to_csv(f'word_embedding_{epoch}.csv') # salvando
+# ======================== FUNÇÃO QUE SALVA AS WORD EMBEDDING ======================
 
 dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
@@ -183,3 +194,4 @@ for epoch in range(N_EPOCHS):
         loss_epoch += loss.item()
     
     log (f'Epoch: {epoch:02} train_loss: {round(loss_epoch,3)}')
+    salvar_word_embedding(epoch)
