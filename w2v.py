@@ -181,7 +181,7 @@ loss_fn.to(DEVICE)
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
 for epoch in range(N_EPOCHS):
-    loss_epoch = 0
+    loss_epoch, total_itens = 0, 0
     for x, y_real in tqdm(dataloader, ncols=50):
         x, y_real = x.to(DEVICE), y_real.to(DEVICE)
         
@@ -192,6 +192,8 @@ for epoch in range(N_EPOCHS):
         optimizer.step()
 
         loss_epoch += loss.item()
+        total_itens += len(x)
     
-    log (f'Epoch: {epoch:02} train_loss: {round(loss_epoch,3)}')
+    loss_epoch = loss_epoch/total_itens
+    log (f'Epoch: {epoch:02} train_loss: {round(loss_epoch,4)}')
     salvar_word_embedding(epoch)
