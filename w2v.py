@@ -145,11 +145,7 @@ class Modelo_CBOW(nn.Module):
         super(Modelo_CBOW, self).__init__()
         
         self.embedding = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embedding_dim, max_norm=1)
-        self.linear = nn.Sequential(
-            nn.ReLU(),
-            nn.Linear(in_features=embedding_dim, out_features=vocab_size),
-            nn.Softmax(dim=-1)
-        )
+        self.linear = nn.Linear(in_features=embedding_dim, out_features=vocab_size)
     
     def forward(self, x):
         x = self.embedding(x)
@@ -182,7 +178,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
 for epoch in range(N_EPOCHS):
     loss_epoch, total_itens = 0, 0
-    for x, y_real in tqdm(dataloader, ncols=50):
+    for x, y_real in tqdm(dataloader, ncols=70):
         x, y_real = x.to(DEVICE), y_real.to(DEVICE)
         
         optimizer.zero_grad()
