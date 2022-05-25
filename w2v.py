@@ -5,8 +5,8 @@ parser.add_argument('--edim', type=int, default=32, help='Embedding DIM')
 parser.add_argument('--e', type=int, default=5, help='Número de épocas de treinamento')
 parser.add_argument('--b', type=int, default=64, help='Batch Size')
 parser.add_argument('--lr', type=float, default=1e-3, help='Learming Rate')
-parser.add_argument('--rsw', type=bool, default=False, help='Remover STOPWORDS')
-parser.add_argument('--s', type=bool, default=False, help="Considerar Stemming")
+parser.add_argument('--rsw', type=str, default=False, help='Remover STOPWORDS')
+parser.add_argument('--s', type=str, default=False, help="Considerar Stemming")
 parser.add_argument('--fmin', type=int, default=2, help='Frequência Mínima para considerar dentro do vocabulário')
 
 args = parser.parse_args()
@@ -39,8 +39,8 @@ EMBEDDING_DIM = args.edim
 N_EPOCHS = args.e
 BATCH_SIZE = args.b
 LEARNING_RATE = args.lr
-RETIRAR_STOP_WORDS = args.rsw
-ESTEMIZAR = args.s
+RETIRAR_STOP_WORDS = True if args.rsw == 'True' else False
+ESTEMIZAR = True if args.s == 'True' else False
 FREQUENCIA_MINIMA = args.fmin
 
 nltk.download('rslp')
