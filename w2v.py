@@ -84,8 +84,8 @@ else:
 def normalizar_frase(frase):
     frase = str(frase).lower()
     frase = remover_acentos(frase)
-    frase = re.sub(r'\w*[0-9]+\w*', '', frase)
-    frase = re.sub(r'[\[\]º!"#$%&\'()*+,-./:;<=>?@^_`~]+', '', frase) # remove caracteres especiais
+    frase = re.sub(r'\w*[0-9]+\w*', ' ', frase)
+    frase = re.sub(r'[\[\]º!"#$%&\'()*+,-./:;<=>?@^_`~]+', ' ', frase) # remove caracteres especiais
     
     tokens = [stemmer.stem(tk) if ESTEMIZAR else tk for tk in word_tokenize(frase) if tk not in stopwords] # removendo stopwords e estemizando
 
