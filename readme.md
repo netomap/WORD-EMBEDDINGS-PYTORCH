@@ -1,3 +1,9 @@
+![data](https://img.shields.io/github/commit-activity/w/netomap/WORD-EMBEDDINGS-PYTORCH)  
+![data](https://img.shields.io/github/last-commit/netomap/WORD-EMBEDDINGS-PYTORCH)  
+![data](https://img.shields.io/github/repo-size/netomap/WORD-EMBEDDINGS-PYTORCH)  
+![data](https://img.shields.io/github/languages/count/netomap/WORD-EMBEDDINGS-PYTORCH)  
+![data](https://img.shields.io/github/downloads/netomap/WORD-EMBEDDINGS-PYTORCH/total)
+
 # Word-2-Vec
 
 - Este repositório é uma treinamento/aprendizado da criação de word-embedding utilizando [Pytorch](https://pytorch.org/).
